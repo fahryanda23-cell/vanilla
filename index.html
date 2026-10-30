@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Selaras - Etalase Produk Resmi</title>
+  <meta name="description" content="Katalog produk resmi toko dengan pemesanan cepat via WhatsApp dan sinkronisasi database cloud.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#FAFAF9] text-stone-900 antialiased selection:bg-amber-100 selection:text-amber-900 min-h-screen flex flex-col">
+
+  <!-- Top Announcement Bar -->
+  <div id="announcement-bar" class="bg-stone-900 text-stone-100 text-xs py-1.5 px-4 text-center tracking-wide font-normal flex items-center justify-center gap-2">
+    <span id="announcement-text">Bisa pesan langsung via WhatsApp · Gratis ongkir untuk pembelian di atas Rp 300.000</span>
+  </div>
+
+  <!-- Header / Navbar -->
+  <header class="sticky top-0 z-40 bg-[#FAFAF9]/95 backdrop-blur-md border-b border-stone-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
+      
+      <!-- Zone 1: Store Wordmark & Secret Admin Trigger -->
+      <button id="brand-btn" class="text-left font-bold text-xl tracking-tight text-stone-900 whitespace-nowrap shrink-0 hover:text-amber-800 transition-colors flex items-center gap-2.5 cursor-pointer">
+        <span id="brand-initial" class="w-8 h-8 rounded-lg bg-stone-900 text-amber-100 flex items-center justify-center font-serif text-lg font-bold">
+          T
+        </span>
+        <span id="brand-name">Toko Selaras</span>
+      </button>
+
+      <!-- Zone 2: Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-stone-600">
+        <a href="#katalog" class="hover:text-stone-900 transition-colors whitespace-nowrap">Katalog Produk</a>
+        <a href="#unggulan" class="hover:text-stone-900 transition-colors whitespace-nowrap">Pilihan Unggulan</a>
+        <a href="#cara-pesan" class="hover:text-stone-900 transition-colors whitespace-nowrap">Cara Pemesanan</a>
+        <a href="#kontak" class="hover:text-stone-900 transition-colors whitespace-nowrap">Informasi Toko</a>
+      </nav>
+
+      <!-- Zone 3: Primary Actions (Admin Pill when verified + Cart) -->
+      <div class="flex items-center gap-2.5 shrink-0">
+        <button id="admin-active-btn" class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-300 rounded-lg hover:bg-amber-200 transition-colors cursor-pointer">
+          <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+          <span>Kelola Toko</span>
+        </button>
+
+        <button id="open-cart-btn" class="relative inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-stone-900 hover:bg-stone-800 rounded-lg shadow-sm transition-all whitespace-nowrap cursor-pointer active:scale-95">
+          <i data-lucide="shopping-bag" class="w-4 h-4 text-amber-300"></i>
+          <span>Keranjang</span>
+          <span id="cart-badge" class="tabular-nums bg-amber-400 text-stone-950 font-bold px-1.5 py-0.2 rounded text-[11px]">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-stone-100 border-b border-stone-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <div class="lg:col-span-6 space-y-6">
+          <div class="space-y-3">
+            <span class="text-xs uppercase tracking-widest font-semibold text-amber-800">
+              Katalog Resmi & Etalase Toko
+            </span>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15]">
+              Koleksi Produk Pilihan untuk Kebutuhan Anda
+            </h1>
+            <p id="store-tagline" class="text-stone-600 text-base sm:text-lg leading-relaxed max-w-xl">
+              Jelajahi etalase barang berkualitas langsung dari toko kami. Cek ketersediaan stok secara real-time dan pesan langsung via WhatsApp dengan mudah.
+            </p>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="relative max-w-lg">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+              <i data-lucide="search" class="w-4 h-4"></i>
+            </div>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Cari nama barang, jenis, atau kode SKU..."
+              class="block w-full pl-10 pr-24 py-3 bg-white border border-stone-300 rounded-xl text-sm placeholder-stone-400 text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 shadow-xs"
+            >
+            <button
+              id="search-btn"
+              class="absolute right-1.5 top-1.5 bottom-1.5 px-4 bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+            >
+              Cari
+            </button>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="pt-2 border-t border-stone-200/80 flex flex-wrap items-center gap-6 text-xs text-stone-600">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-amber-800"></i>
+              <span>100% Kualitas Terjamin</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="message-circle" class="w-4 h-4 text-emerald-700"></i>
+              <span>Order Cepat via WhatsApp</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="truck" class="w-4 h-4 text-stone-700"></i>
+              <span>Kirim Seluruh Indonesia</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Image -->
+        <div class="lg:col-span-6">
+          <div class="relative rounded-2xl overflow-hidden shadow-lg border border-stone-200 bg-stone-200 aspect-[16/10]">
+            <img
+              src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80"
+              alt="Etalase Toko"
+              class="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-stone-950/60 via-transparent to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white p-3 backdrop-blur-xs bg-stone-900/40 rounded-xl border border-white/10 flex items-center justify-between">
+              <div>
+                <p class="text-xs font-light text-stone-200">Kunjungan Toko</p>
+                <p id="hero-location" class="text-sm font-semibold">Bandung & Jakarta, Indonesia</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xs font-light text-stone-200">Jam Operasional</p>
+                <p id="hero-hours" class="text-xs font-medium">09.00 - 18.00 WIB</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-16">
+    
+    <!-- SECTION: Pilihan Unggulan -->
+    <section id="unggulan" class="space-y-6">
+      <div class="flex items-end justify-between border-b border-stone-200 pb-3">
+        <div>
+          <span class="text-xs uppercase tracking-widest font-semibold text-amber-800 flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            <span>Koleksi Paling Diminati</span>
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight mt-1">
+            Pilihan Unggulan Toko
+          </h2>
+        </div>
+        <span class="text-xs text-stone-500 hidden sm:inline">
+          Produk rekomendasi dengan mutu terbaik
+        </span>
+      </div>
+
+      <div id="featured-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- SECTION: Katalog Lengkap -->
+    <section id="katalog" class="space-y-6">
+      <div class="space-y-2">
+        <span class="text-xs uppercase tracking-widest font-semibold text-amber-800">
+          Katalog Lengkap
+        </span>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+            Etalase Semua Produk
+          </h2>
+          <button id="clear-search-btn" class="hidden text-xs text-stone-600 hover:text-stone-900 underline cursor-pointer self-start sm:self-auto">
+            Hapus filter pencarian
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="space-y-4">
+        <div id="category-bar" class="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Sub filter controls -->
+        <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-stone-600 pt-2 border-t border-stone-200/60">
+          <div class="flex items-center gap-3">
+            <span id="product-count-text" class="font-medium text-stone-700">
+              Menampilkan barang
+            </span>
+            <span class="text-stone-300">|</span>
+            <label class="inline-flex items-center gap-1.5 hover:text-stone-900 cursor-pointer select-none">
+              <input type="checkbox" id="instock-checkbox" class="rounded border-stone-300 text-stone-900 focus:ring-stone-900">
+              <span>Hanya Stok Tersedia</span>
+            </label>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-stone-400"></i>
+            <span class="hidden sm:inline">Urutkan:</span>
+            <select id="sort-select" class="bg-white border border-stone-200 rounded-md px-2.5 py-1 text-xs text-stone-800 focus:outline-none focus:ring-1 focus:ring-stone-900 cursor-pointer">
+              <option value="featured">Koleksi Rekomendasi</option>
+              <option value="price-asc">Harga: Terendah ke Tertinggi</option>
+              <option value="price-desc">Harga: Tertinggi ke Terendah</option>
+              <option value="name">Nama Barang (A - Z)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Products Grid -->
+      <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-2">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Empty state container -->
+      <div id="empty-state" class="hidden py-20 text-center space-y-4 bg-stone-100/60 rounded-2xl border border-stone-200">
+        <div class="w-14 h-14 mx-auto rounded-full bg-stone-200 flex items-center justify-center text-stone-400">
+          <i data-lucide="package-x" class="w-7 h-7"></i>
+        </div>
+        <h3 class="text-base font-bold text-stone-900">Tidak ada barang yang sesuai</h3>
+        <p class="text-xs text-stone-500 max-w-sm mx-auto">Coba sesuaikan kata kunci pencarian atau ubah filter kategori yang dipilih.</p>
+        <button id="reset-filter-btn" class="px-4 py-2 bg-stone-900 text-white text-xs font-semibold rounded-lg hover:bg-stone-800 transition-colors cursor-pointer">
+          Tampilkan Semua Barang
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- How to Order Section -->
+  <section id="cara-pesan" class="py-14 sm:py-16 bg-white border-t border-stone-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto space-y-2 mb-12">
+        <span class="text-xs uppercase tracking-widest font-semibold text-amber-800">Panduan Berbelanja</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">Cara Mudah Berbelanja di Etalase Toko Kami</h2>
+        <p class="text-stone-500 text-sm">Proses pemesanan cepat dan transparan, langsung terhubung dengan admin toko kami via WhatsApp.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex flex-col items-start space-y-3 p-6 rounded-2xl bg-stone-50 border border-stone-200/80">
+          <div class="flex items-center justify-between w-full">
+            <span class="font-serif text-2xl font-bold text-stone-300">01</span>
+            <div class="w-10 h-10 rounded-xl bg-amber-100/70 text-amber-900 flex items-center justify-center">
+              <i data-lucide="search" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <h3 class="text-base font-bold text-stone-900">Pilih Barang di Etalase</h3>
+          <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">Cari barang yang Anda inginkan, cek ketersediaan stok secara real-time, dan klik tombol Beli.</p>
+        </div>
+
+        <div class="flex flex-col items-start space-y-3 p-6 rounded-2xl bg-stone-50 border border-stone-200/80">
+          <div class="flex items-center justify-between w-full">
+            <span class="font-serif text-2xl font-bold text-stone-300">02</span>
+            <div class="w-10 h-10 rounded-xl bg-amber-100/70 text-amber-900 flex items-center justify-center">
+              <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <h3 class="text-base font-bold text-stone-900">Cek Keranjang & Isi Data</h3>
+          <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">Buka keranjang belanja, tentukan jumlah pesanan, dan isi nama beserta alamat lengkap pengiriman Anda.</p>
+        </div>
+
+        <div class="flex flex-col items-start space-y-3 p-6 rounded-2xl bg-stone-50 border border-stone-200/80">
+          <div class="flex items-center justify-between w-full">
+            <span class="font-serif text-2xl font-bold text-stone-300">03</span>
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-900 flex items-center justify-center">
+              <i data-lucide="message-square" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <h3 class="text-base font-bold text-stone-900">Kirim via WhatsApp Resmi</h3>
+          <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">Klik tombol WhatsApp untuk mengirim detail pesanan otomatis ke penjual dan konfirmasi ongkos kirim.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="kontak" class="bg-stone-900 text-stone-300 border-t border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <span id="footer-initial" class="w-8 h-8 rounded-lg bg-amber-200 text-stone-950 flex items-center justify-center font-serif text-lg font-bold">T</span>
+            <span id="footer-name" class="text-lg font-bold text-white tracking-tight">Toko Selaras</span>
+          </div>
+          <p id="footer-tagline" class="text-xs text-stone-400 leading-relaxed">Koleksi Barang Pilihan Nusantara</p>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-amber-200">Layanan Toko</h4>
+          <div class="space-y-2 text-xs text-stone-400">
+            <p id="footer-location">Bandung & Jakarta, Indonesia</p>
+            <p id="footer-hours">Senin - Sabtu: 09.00 - 18.00 WIB</p>
+            <p id="footer-wa" class="text-emerald-400 font-mono">WA: +6281234567890</p>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-amber-200">Metode Pembayaran</h4>
+          <p class="text-xs text-stone-400 leading-relaxed">Menerima Transfer Bank (BCA, Mandiri, BRI), QRIS, serta sistem COD.</p>
+          <div id="footer-bank" class="p-2.5 rounded-lg bg-stone-800/80 border border-stone-700/60 text-xs font-mono text-amber-100">
+            BCA: 873-091-2341
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-amber-200">Layanan & Bantuan</h4>
+          <p class="text-xs text-stone-400 leading-relaxed">Butuh konsultasi produk atau kustomisasi pesanan? Hubungi admin resmi kami via WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-6 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+        <p><span id="footer-secret-btn" class="cursor-pointer hover:text-stone-400">©</span> <span id="current-year"></span> <span id="footer-copyright-name">Toko Selaras</span>. Seluruh hak cipta dilindungi.</p>
+        <p>Etalase Produk Resmi · Pemesanan Langsung WhatsApp</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: Product Detail (PDP) -->
+  <div id="detail-modal" class="modal-overlay hidden fixed inset-0 z-50 overflow-y-auto bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6">
+    <div class="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden" onclick="event.stopPropagation()">
+      <button id="close-detail-btn" class="absolute top-3.5 right-3.5 z-10 p-2 text-stone-500 hover:text-stone-900 bg-white/80 rounded-full shadow-xs cursor-pointer">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="relative bg-stone-100 aspect-square md:aspect-auto h-full min-h-[300px]">
+          <img id="modal-img" src="" alt="Produk" class="w-full h-full object-cover">
+          <div id="modal-sku" class="absolute bottom-3 left-3 bg-stone-900/80 text-white text-xs px-2.5 py-1 rounded backdrop-blur-xs font-mono"></div>
+        </div>
+
+        <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between text-xs">
+              <span id="modal-category" class="text-stone-500 font-medium uppercase"></span>
+              <span id="modal-stock" class="font-medium text-emerald-700"></span>
+            </div>
+            <h2 id="modal-title" class="text-xl sm:text-2xl font-bold text-stone-900"></h2>
+            <div class="flex items-baseline gap-3">
+              <span id="modal-price" class="text-2xl sm:text-3xl font-extrabold text-stone-900 tabular-nums"></span>
+              <span id="modal-unit" class="text-xs text-stone-500"></span>
+            </div>
+            <p id="modal-desc" class="text-stone-600 text-sm leading-relaxed border-t border-stone-100 pt-3"></p>
+          </div>
+
+          <div class="space-y-3 pt-4 border-t border-stone-200">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-stone-700">Jumlah Pesanan:</span>
+              <div class="flex items-center border border-stone-300 rounded-lg overflow-hidden bg-stone-50">
+                <button id="detail-qty-minus" class="px-3 py-1 text-stone-700 hover:bg-stone-200 font-bold">-</button>
+                <span id="detail-qty-display" class="px-4 py-1 text-xs font-semibold text-stone-900 min-w-10 text-center">1</span>
+                <button id="detail-qty-plus" class="px-3 py-1 text-stone-700 hover:bg-stone-200 font-bold">+</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              <button id="modal-add-cart-btn" class="w-full py-2.5 px-4 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer">
+                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                <span>+ Keranjang</span>
+              </button>
+              <button id="modal-direct-wa-btn" class="w-full py-2.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer">
+                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                <span>Pesan via WA</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE-OVER: Cart Drawer -->
+  <div id="cart-drawer-overlay" class="modal-overlay hidden fixed inset-0 z-50 bg-stone-900/50 backdrop-blur-xs flex justify-end">
+    <div class="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-4 sm:p-5 border-b border-stone-200 flex items-center justify-between bg-stone-50">
+        <div class="flex items-center gap-2">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-stone-900"></i>
+          <h2 id="cart-title" class="font-bold text-base text-stone-900">Keranjang Belanja (0)</h2>
+        </div>
+        <button id="close-cart-btn" class="p-1.5 text-stone-500 hover:text-stone-900 rounded-lg hover:bg-stone-200 cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div id="cart-form-container" class="p-4 sm:p-5 border-t border-stone-200 bg-stone-50 space-y-3">
+        <!-- Customer details & WA checkout button -->
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-stone-600">Total Belanja</span>
+          <span id="cart-total-price" class="text-lg font-extrabold text-stone-900">Rp 0</span>
+        </div>
+
+        <div class="space-y-2">
+          <input type="text" id="cust-name" placeholder="Nama Lengkap *" class="w-full px-3 py-1.5 text-xs border border-stone-300 rounded-lg bg-white">
+          <input type="tel" id="cust-phone" placeholder="No. WhatsApp / HP *" class="w-full px-3 py-1.5 text-xs border border-stone-300 rounded-lg bg-white">
+          <textarea id="cust-address" rows="2" placeholder="Alamat Pengiriman Lengkap *" class="w-full px-3 py-1.5 text-xs border border-stone-300 rounded-lg bg-white resize-none"></textarea>
+          <select id="cust-payment" class="w-full px-3 py-1.5 text-xs border border-stone-300 rounded-lg bg-white">
+            <option value="Transfer Bank">Transfer Bank (BCA / Mandiri / BRI)</option>
+            <option value="QRIS">QRIS</option>
+            <option value="COD">COD (Bayar di Tempat)</option>
+          </select>
+        </div>
+
+        <button id="checkout-wa-btn" class="w-full py-2.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+          <i data-lucide="send" class="w-4 h-4"></i>
+          <span>Kirim Pesanan via WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Store Admin & Inventory Manager (PIN Protected) -->
+  <div id="admin-modal" class="modal-overlay hidden fixed inset-0 z-50 overflow-y-auto bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6">
+    <div class="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 border-b border-stone-200 flex items-center justify-between bg-stone-50">
+        <div>
+          <h2 class="font-bold text-lg text-stone-900 flex items-center gap-2">
+            <i data-lucide="store" class="w-5 h-5 text-amber-800"></i>
+            <span>Kelola Etalase Toko</span>
+            <span id="admin-badge-status" class="text-[11px] bg-stone-200 text-stone-700 font-semibold px-2 py-0.5 rounded flex items-center gap-1">
+              <i data-lucide="lock" class="w-3 h-3"></i> Terkunci PIN
+            </span>
+          </h2>
+          <p class="text-xs text-stone-500">Panel khusus pemilik toko untuk atur barang dan stok secara online</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="admin-lock-btn" class="hidden text-xs text-stone-600 hover:text-stone-900 px-2.5 py-1 rounded bg-stone-200">
+            Kunci Akses
+          </button>
+          <button id="close-admin-btn" class="p-1.5 text-stone-500 hover:text-stone-900 rounded-lg hover:bg-stone-200 cursor-pointer">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- PIN Verification Screen -->
+      <div id="admin-login-screen" class="p-8 sm:p-12 flex flex-col items-center justify-center text-center space-y-6 max-w-md mx-auto">
+        <div class="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-800 shadow-xs">
+          <i data-lucide="key-round" class="w-8 h-8"></i>
+        </div>
+        <div class="space-y-1">
+          <h3 class="text-lg font-bold text-stone-900">Akses Pemilik Toko</h3>
+          <p class="text-xs text-stone-600">Masukkan PIN untuk membuka pengaturan barang toko.</p>
+        </div>
+
+        <form id="pin-form" class="w-full space-y-3">
+          <input type="password" id="pin-input" maxlength="8" required placeholder="PIN (Default: 1234)" class="w-full px-4 py-2 text-center text-lg font-mono tracking-widest border border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-900">
+          <p id="pin-error" class="hidden text-xs font-medium text-rose-600">PIN salah! Coba lagi.</p>
+          <button type="submit" class="w-full py-2.5 px-4 bg-stone-900 text-white rounded-xl text-xs font-semibold cursor-pointer">Buka Panel</button>
+        </form>
+      </div>
+
+      <!-- Authenticated Admin Content -->
+      <div id="admin-content-screen" class="hidden flex-1 overflow-hidden flex flex-col">
+        <!-- Tabs -->
+        <div class="flex border-b border-stone-200 bg-stone-100 px-4 sm:px-6 gap-2">
+          <button id="tab-btn-list" class="tab-btn active py-3 px-3 text-xs sm:text-sm font-semibold border-b-2 border-stone-900 text-stone-900 bg-white">Daftar Barang</button>
+          <button id="tab-btn-add" class="tab-btn py-3 px-3 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-stone-600 hover:text-stone-900">+ Tambah Barang Baru</button>
+          <button id="tab-btn-settings" class="tab-btn py-3 px-3 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-stone-600 hover:text-stone-900">Pengaturan Toko</button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6">
+          <!-- Tab 1: Product List -->
+          <div id="tab-pane-list" class="space-y-4">
+            <div id="admin-product-table" class="border border-stone-200 rounded-xl overflow-hidden divide-y divide-stone-200">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Tab 2: Add/Edit Product -->
+          <form id="product-form" class="hidden space-y-4 max-w-2xl">
+            <h3 id="form-heading" class="text-sm font-bold text-stone-900">Tambah Barang Baru</h3>
+            <input type="hidden" id="edit-prod-id">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-medium text-stone-700 mb-1">Nama Barang *</label>
+                <input type="text" id="form-name" required placeholder="Contoh: Kopi Arabika 250g" class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-stone-700 mb-1">Kategori</label>
+                <select id="form-category" class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg bg-white">
+                  <option value="Kopi & Minuman">Kopi & Minuman</option>
+                  <option value="Keramik & Dapur">Keramik & Dapur</option>
+                  <option value="Pakaian & Gaya Hidup">Pakaian & Gaya Hidup</option>
+                  <option value="Dekorasi & Rumah">Dekorasi & Rumah</option>
+                  <option value="Aksesoris & Gadget">Aksesoris & Gadget</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-stone-700 mb-1">Kode SKU</label>
+                <input type="text" id="form-sku" placeholder="Contoh: KOP-01" class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg font-mono">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-stone-700 mb-1">Harga (Rp) *</label>
+                <input type="number" id="form-price" min="1000" step="1000" required value="50000" class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-stone-700 mb-1">Stok</label>
+                <input type="number" id="form-stock" min="0" value="10" class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg">
+              </div>
+            </div>
+
+            <!-- Upload Photo Section -->
+            <div class="p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
+              <label class="block text-xs font-bold text-stone-800">Foto Produk</label>
+              <div class="flex items-center gap-3">
+                <img id="form-img-preview" src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="Preview" class="w-16 h-16 rounded-lg object-cover border border-stone-300 bg-white">
+                <div>
+                  <input type="file" id="form-file-input" accept="image/*" class="hidden">
+                  <button type="button" id="form-upload-btn" class="px-3 py-1.5 bg-stone-900 text-white text-xs font-medium rounded-lg hover:bg-stone-800 cursor-pointer">
+                    Pilih Foto dari HP / Komputer
+                  </button>
+                  <p class="text-[11px] text-stone-500 mt-1">Foto otomatis dikompres agar ringan dan cepat diakses.</p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-700 mb-1">Deskripsi Barang</label>
+              <textarea id="form-desc" rows="3" placeholder="Rincian spesifikasi barang..." class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg"></textarea>
+            </div>
+
+            <div class="flex items-center gap-3 pt-2">
+              <button type="submit" id="form-submit-btn" class="px-5 py-2.5 bg-stone-900 text-white rounded-lg text-xs font-semibold hover:bg-stone-800 cursor-pointer">
+                Terbitkan ke Etalase
+              </button>
+              <button type="button" id="form-cancel-btn" class="px-4 py-2.5 border border-stone-300 text-stone-700 rounded-lg text-xs font-medium cursor-pointer">
+                Batal
+              </button>
+            </div>
+          </form>
+
+          <!-- Tab 3: Store Settings -->
+          <form id="settings-form" class="hidden space-y-4 max-w-2xl">
+            <h3 class="text-sm font-bold text-stone-900">Pengaturan Toko & Keamanan</h3>
+            
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+              <label class="block text-xs font-bold text-amber-950">PIN Pemilik Toko</label>
+              <input type="text" id="setting-pin" required maxlength="8" class="w-36 px-3 py-1.5 text-xs font-mono border border-amber-300 rounded-lg bg-white">
+              <p class="text-[11px] text-amber-800">Ubah PIN ini untuk menjaga keamanan akses kelola toko.</p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-700 mb-1">Nama Toko</label>
+              <input type="text" id="setting-name" required class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg">
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-700 mb-1">Nomor WhatsApp Toko (Contoh: 6281234567890)</label>
+              <input type="text" id="setting-wa" required class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg font-mono">
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-700 mb-1">Alamat / Lokasi Toko</label>
+              <input type="text" id="setting-location" class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg">
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-700 mb-1">Info Rekening Bank</label>
+              <input type="text" id="setting-bank" class="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg">
+            </div>
+
+            <button type="submit" class="px-5 py-2.5 bg-stone-900 text-white rounded-lg text-xs font-semibold cursor-pointer">
+              Simpan Pengaturan
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-stone-900 text-white text-xs px-4 py-2.5 rounded-full shadow-lg border border-stone-700 flex items-center gap-2">
+    <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-text">Pemberitahuan</span>
+  </div>
+
+  <!-- Floating Admin Quick Bar (When Logged In) -->
+  <aside id="floating-admin-bar" class="hidden fixed bottom-4 left-4 z-40 bg-stone-900/95 text-stone-100 text-xs px-3.5 py-2 rounded-xl shadow-xl border border-stone-700 flex items-center gap-3">
+    <span class="font-semibold text-amber-300">Mode Pemilik Toko</span>
+    <button id="floating-open-admin-btn" class="text-white hover:text-amber-200 underline cursor-pointer">Buka Panel</button>
+    <span class="text-stone-600">|</span>
+    <button id="floating-logout-btn" class="text-stone-400 hover:text-rose-300 cursor-pointer">Kunci & Keluar</button>
+  </aside>
+
+  <!-- Firebase SDK (ESM via CDN) & Application Logic -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
